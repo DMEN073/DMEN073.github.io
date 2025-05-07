@@ -1,0 +1,11 @@
+body {
+    min-height: 100vh;
+    background: #f0f0f0;
+}
+
+#buttonContainer {
+    position: relative;
+    min-height: 500px;
+    width: 100%;
+    background: #f0f0f0;
+}

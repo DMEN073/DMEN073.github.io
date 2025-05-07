@@ -23,5 +23,17 @@ function generateButton() {
     container.append(newButton);
     count++;
 }
+
+function helloButton() {
+    console.log("hello button triggered")
+    fetch('http://localhost:9080/')
+        .then(response => response.text())
+        .then(data => { console.log("Server response is ", data); })
+
+        .catch(err => { console.log("Error server communication is  ", err); });
+
+}
+
 count = 0;
 document.getElementById("generateButton").addEventListener("click", generateButton);
+document.getElementById("helloButton").addEventListener("click", helloButton);
