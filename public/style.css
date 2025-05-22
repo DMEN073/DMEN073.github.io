@@ -1,11 +1,47 @@
 body {
-    min-height: 100vh;
-    background: #f0f0f0;
+    margin: 0;
+    background: #000;
+    color: #0f0;
+    font-family: monospace;
+    height: 100vh;
+    overflow: hidden;
 }
 
-#buttonContainer {
+#terminal {
+    padding: 1em;
+    white-space: pre-wrap;
+    outline: none;
+    /* hide focus ring */
+    height: 100%;
+    overflow-y: auto;
+}
+
+#cursor {
+    display: inline-block;
+    width: 8px;
+    height: 1em;
+    background-color: green;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+.line {
+    white-space: pre;
+    font-family: monospace;
+}
+
+
+/* #buttonContainer {
     position: relative;
     min-height: 500px;
     width: 100%;
     background: #f0f0f0;
 }
+
+#serverResponse {
+    position: relative;
+} */
