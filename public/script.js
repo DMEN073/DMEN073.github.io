@@ -1,43 +1,9 @@
-// function mouseHover(event) {
-//     console.log("HI")
-// }
 
-// function generateButton() {
-//     const button = document.getElementById("generateButton");
-//     const container = document.getElementById("buttonContainer");
-//     container.removeChild(button);
-
-//     const newButton = document.createElement("button");
-//     const maxButtonX = container.clientWidth - 100;
-//     const maxButtonY = container.clientHeight - 50;
-
-//     const randomXLoc = Math.floor(Math.random() * maxButtonX);
-//     const randomYLoc = Math.floor(Math.random() * maxButtonY);
-//     newButton.id = "generateButton";
-//     newButton.textContent = `New Button ${count}`;
-//     newButton.style.position = "absolute";
-//     newButton.style.margin = "10px";
-//     newButton.style.left = `${randomXLoc}px`;
-//     newButton.style.top = `${randomYLoc}px`;
-//     newButton.addEventListener("click", generateButton);
-//     container.append(newButton);
-//     count++;
-// }
-
-// function helloButton() {
-//     console.log("hello button triggered")
-//     fetch('http://localhost:9080/')
-//         .then(response => response.text())
-//         .then(data => {
-//             const textResponse = document.getElementById("serverResponse");
-//             textResponse.textContent = data;
-//             console.log("Server response is ", data);
-//         })
-
-//         .catch(err => { console.log("Error server communication is  ", err); });
-
-// }
-
+function startUp() {
+    printLine('Welcome to my terminal portfolio!');
+    printLine('Type "help" and press ENTER.');
+    printPrompt();
+}
 
 function getTextWidth(text) {
     const span = document.createElement('span');
@@ -50,7 +16,6 @@ function getTextWidth(text) {
     return width;
 }
 
-
 function printLine(text = '') {
     // terminal.innerText += text + '\n';
     // terminal.scrollTop = terminal.scrollHeight;
@@ -60,19 +25,13 @@ function printLine(text = '') {
 
     // Always scroll to bottom
     terminal.scrollTop = terminal.scrollHeight;
-}
-
-function printPrompt() {
     const existingCursor = document.getElementById('cursor');
-    const existingBuffer = document.getElementById('inputBuffer');
     if (existingCursor) {
         existingCursor.remove();
     }
-    if (existingBuffer) {
-        existingBuffer.remove();
-    }
+}
 
-    // Create a wrapper div for the prompt line
+function printPrompt() {
 
     const promptLine = document.createElement('div');
     promptLine.className = 'line';
@@ -105,38 +64,46 @@ function printPrompt() {
 function moveCursorToEnd() {
     const promptLength = terminal.innerText.lastIndexOf('> ') + 2;
     const textWidth = getTextWidth(terminal.innerText.substring(0, promptLength));
-
+    // const cursor = document.getElementById('cursor');
+    if (!cursor) {
+        console.log("Error on getting cursor");
+        return;
+    }
     // Move cursor position after the prompt text
     cursor.style.left = `${textWidth}px`;
     cursor.style.top = `${terminal.scrollHeight - 25}px`;
 
     // Only append cursor if it's not already in the terminal
-    if (!terminal.contains(cursor)) {
-        terminal.appendChild(cursor);
-    }
+    terminal.appendChild(cursor);
 }
 
 function handleCommand(cmd) {
     switch (cmd.trim()) {
         case 'help':
             printLine('Commands: help, about, projects, resume');
+            printPrompt();
             break;
         case 'about':
-            printLine('I’m a C++ & AI developer. I build high-performance demos in the browser.');
+            printLine('I’m a C++ Robotic developer.');
+            printPrompt();
             break;
         case 'projects':
-            printLine('- Physics simulator');
-            printLine('- OpenCV filters in WASM');
-            printLine('- Pathfinding visualizer');
+            printLine('- franka RL IK simulator');
+            printPrompt();
             break;
         case 'resume':
             printLine('Download: resume.pdf');
+            printPrompt();
             break;
+        case 'clear':
+            terminal.innerText = "";
+            startUp();
         case '':
             // ignore empty
             break;
         default:
             printLine(`Unknown command: ${cmd}`);
+            printPrompt();
     }
 }
 
@@ -147,36 +114,26 @@ const cursor = document.getElementById('cursor');
 
 let cmdBuffer = '';
 
-let i = 0;
-printLine('Welcome to my terminal portfolio!');
-printLine('Type "help" and press ENTER.');
-printLine();
-printPrompt();
+startUp();
 
 terminal.addEventListener('keydown', (e) => {
-    e.preventDefault();
     const key = e.key;
-
     if (key.length === 1) {
         // regular character
         cmdBuffer += key;
         terminal.innerText += key;
+        moveCursorToEnd();
     } else if (key === 'Backspace') {
         if (cmdBuffer.length) {
             cmdBuffer = cmdBuffer.slice(0, -1);
             terminal.innerText = terminal.innerText.slice(0, -1);
         }
+        moveCursorToEnd();
     } else if (key === 'Enter') {
-        terminal.innerText += '\n';
         handleCommand(cmdBuffer);
         cmdBuffer = '';
-        printPrompt();
     }
-    moveCursorToEnd();
+
 });
 
 terminal.focus();
-
-// count = 0;
-// document.getElementById("generateButton").addEventListener("click", generateButton);
-// document.getElementById("helloButton").addEventListener("click", helloButton);

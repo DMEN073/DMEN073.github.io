@@ -18,10 +18,15 @@ body {
 
 #cursor {
     display: inline-block;
-    width: 8px;
+    width: 10px;
     height: 1em;
-    background-color: green;
+    background-color: greenyellow;
+    /* or any color you want */
+    animation: blink 1s step-start infinite;
+    vertical-align: bottom;
+    /* keeps it aligned with text */
 }
+
 
 @keyframes blink {
     50% {
